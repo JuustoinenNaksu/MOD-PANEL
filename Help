@@ -5,7 +5,7 @@ MOD-PANEL Help:
       2) You can add/remove permission to/from players(staff) with command `/mod-panel:permission`.
 
   2. Player name and skin dosen't update when player changes them?
-      1) MOD-PANEL dosen't have that feature yet, but it's coming in the future.
+      1) MOD-PANEL dosen't have that feature yet, but it's coming soon.
 
   3. something dosen't work or Found Bug?
       1) try reloading the skript. (if it didn't fix try reinstalling mod-panel skript)
