@@ -1,7 +1,7 @@
 # MOD-PANEL
 MOD-PANEL is for minecraft servers to help staff to moderate the server easily. 
 - ! [This is skript] !
-- » make sure that you have skript, skbee and skirpt-GUI installed on to your server «
+- » make sure that you have skript, skbee and skirpt-GUI installed on to your server. (only skript version: < 2.9.5) «
 - ! [Please don't change anything in the skript. Thank you.] !
 -
 - Downloads: 
