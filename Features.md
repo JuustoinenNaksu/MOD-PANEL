@@ -1,3 +1,6 @@
+# Player list:
+  - Skin/Name updater [Beta]
+
 # Player control:
   - Player status
   - Ban
