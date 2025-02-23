@@ -1,4 +1,4 @@
-- Player control:
+# Player control:
   - Player status
   - Ban
   - Kick
@@ -11,7 +11,7 @@
   - Broadcast
   - Freeze
 
-- Staff tools:
+# Staff tools:
   - Staff-chat
   - Broadcast
   - Chat-lock
