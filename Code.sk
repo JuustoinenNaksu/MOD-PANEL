@@ -1,0 +1,925 @@
+#      __  __  ____  _____         _____        _   _ ______ _      
+#     |  \/  |/ __ \|  __ \       |  __ \ /\   | \ | |  ____| |     
+#     | \  / | |  | | |  | |______| |__) /  \  |  \| | |__  | |     
+#     | |\/| | |  | | |  | |______|  ___/ /\ \ | . ` |  __| | |     
+#     | |  | | |__| | |__| |      | |  / ____ \| |\  | |____| |____ 
+#     |_|  |_|\____/|_____/       |_| /_/    \_\_| \_|______|______|
+#
+# +-------------------------------------------------+
+# By: _JuustoNaksu_
+# +-------------------------------------------------+
+# Links:
+#   GitHub: https://github.com/JuustoinenNaksu/
+#   Discord: _juustonaksu_
+# +-------------------------------------------------+
+# Needed Plugins:
+#   Skript: https://github.com/SkriptLang/Skript/releases
+#   SkBee: https://github.com/ShaneBeee/SkBee/releases
+#   skript-GUI: https://github.com/APickledWalrus/skript-gui/releases (recommended)
+# +-------------------------------------------------+
+# This is skript for minecraft staff to moderate the server easily.
+# This skript will have updates in the future.
+# +-------------------------------------------------+
+# Please don't change anything in the skript. Thank you
+# Happy gaming and moderating :D
+# +-------------------------------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#!!   config coming soon...   !!
+
+
+
+
+command /MOD-PANEL:permission [<text>] [<offline player>]:
+    usage: &c/mod-panel:permission [add/list/remove] [player]
+    permission: MOD-PANEL:permission
+    permission message: &cYou don't have permission to run that command!
+    trigger:
+        if arg-1 is "list":
+            send {@MOD-PANEL_Prefix} &8&l» &7Players who have permission to the panel:" to player
+            send "&f%{MOD-PANEL_STAFF::*}%" to player
+        else if arg-2 is set:
+            if arg-1 is "add":
+                if {MOD-PANEL_STAFF::*} contains arg-2:
+                    send {@MOD-PANEL_Prefix} &8&l» &f&l%arg-2% &calready have permission to the panel!" to player
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &aAdded panel permission to &f&l%arg-2%" to player
+                    add arg-2 to {MOD-PANEL_STAFF::*}
+
+            else if arg-1 is "remove":
+                if {MOD-PANEL_STAFF::*} contains arg-2:
+                    send {@MOD-PANEL_Prefix} &8&l» &aRemoved panel permission from &f&l%arg-2%" to player
+                    remove arg-2 from {MOD-PANEL_STAFF::*}
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &f&l%arg-2% &cdosen't have permission to the panel!" to player
+
+        else:
+            send "&c/mod-panel:permission [add/list/remove] [player]" to player
+
+on tab complete of "/MOD-PANEL:permission":
+	set tab completions for position 1 to "add", "list" and "remove"
+
+command /MOD-PANEL:panel:
+    aliases: /panel
+    trigger:
+        if {MOD-PANEL_STAFF::*} contains player:
+            GUI_MOD_PANEL_online_menu1(player)
+        else:
+            send {@MOD-PANEL_Prefix} &8&l» &cYou don't have permission to the panel!" to player
+
+command /MOD-PANEL:version:
+    trigger:
+        send "&7&m-------------------------" to player
+        send {@MOD-PANEL_Prefix} &8&l» &9v.{@version}" to player
+        send "&7&m-------------------------" to player
+
+
+
+function GUI_MOD_PANEL_online_menu1(p: player):
+    set {_MOD-PANEL_GUI} to a new chest inventory with 6 rows named {@MOD-PANEL_Prefix} &8(&e1&8/&e3&8)"
+    set slot integers from 0 to 8 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to nether star named "&fPlayers &aOnline: %number of all players%/%max players%" with lore "&fPlayers &cOffline: %({MOD-PANEL_all_players} - number of all players)%" and "&8&m                           " and "&fPlayed Players: &7%{MOD-PANEL_all_players}%"
+    set slot integers from 8 to 8 of {_MOD-PANEL_GUI} to crafting table named "&6&lSTAFF-Tools"
+    set slot integers from 5 to 5 of {_MOD-PANEL_GUI} to spectral arrow named "&f&lNext"
+    set slot integers from 0 to 0 of {_MOD-PANEL_GUI} to chest named "&6&lAddons"
+    open {_MOD-PANEL_GUI} to {_p}
+    set {_Var} to 8
+    loop {MOD-PANEL_online_players1::*}:
+        add 1 to {_Var}
+        set slot {_Var} of {_MOD-PANEL_GUI} to loop-value
+
+function GUI_MOD_PANEL_online_menu2(p: player):
+    set {_MOD-PANEL_GUI} to a new chest inventory with 6 rows named {@MOD-PANEL_Prefix} &8(&e2&8/&e3&8)"
+    set slot integers from 0 to 8 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to nether star named "&fPlayers &aOnline: %number of all players%/%max players%" with lore "&fPlayers &cOffline: %({MOD-PANEL_all_players} - number of all players)%" and "&8&m                           " and "&fPlayed Players: &7%{MOD-PANEL_all_players}%"
+    set slot integers from 8 to 8 of {_MOD-PANEL_GUI} to crafting table named "&6&lSTAFF-Tools"
+    set slot integers from 3 to 3 of {_MOD-PANEL_GUI} to spectral arrow named "&f&lBack"
+    set slot integers from 5 to 5 of {_MOD-PANEL_GUI} to spectral arrow named "&f&lNext"
+    set slot integers from 0 to 0 of {_MOD-PANEL_GUI} to chest named "&6&lAddons"
+    open {_MOD-PANEL_GUI} to {_p}
+    set {_Var} to 8
+    loop {MOD-PANEL_online_players2::*}:
+        add 1 to {_Var}
+        set slot {_Var} of {_MOD-PANEL_GUI} to loop-value
+
+function GUI_MOD_PANEL_online_menu3(p: player):
+    set {_MOD-PANEL_GUI} to a new chest inventory with 6 rows named {@MOD-PANEL_Prefix} &8(&e3&8/&e3&8)"
+    set slot integers from 0 to 8 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to nether star named "&fPlayers &aOnline: %number of all players%/%max players%" with lore "&fPlayers &cOffline: %({MOD-PANEL_all_players} - number of all players)%" and "&8&m                           " and "&fPlayed Players: &7%{MOD-PANEL_all_players}%"
+    set slot integers from 8 to 8 of {_MOD-PANEL_GUI} to crafting table named "&6&lSTAFF-Tools"
+    set slot integers from 3 to 3 of {_MOD-PANEL_GUI} to spectral arrow named "&f&lBack"
+    set slot integers from 0 to 0 of {_MOD-PANEL_GUI} to chest named "&6&lAddons"
+    open {_MOD-PANEL_GUI} to {_p}
+    set {_Var} to 8
+    loop {MOD-PANEL_online_players3::*}:
+        add 1 to {_Var}
+        set slot {_Var} of {_MOD-PANEL_GUI} to loop-value
+
+function GUI_MOD_PANEL_player_control(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 5 rows named {@MOD-PANEL_Prefix}"
+    set slot integers from 0 to 44 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 44 to 44 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    set slot integers from 10 to 10 of {_MOD-PANEL_GUI} to {MOD-PANEL_mace} named "&4&lBan"
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to rabbit foot named "&4&lKick"
+    set slot integers from 12 to 12 of {_MOD-PANEL_GUI} to recovery compass named "&c&lMute"
+    set slot integers from 13 to 13 of {_MOD-PANEL_GUI} to barrel named "&c&lWarn"
+    set slot integers from 14 to 14 of {_MOD-PANEL_GUI} to chest named "&6&lInv&f&lsee"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to ender chest named "&5&lEnder&f&lsee"
+    set slot integers from 16 to 16 of {_MOD-PANEL_GUI} to crafter named "&e&lGamemode"
+    set slot integers from 19 to 19 of {_MOD-PANEL_GUI} to ender pearl named "&e&lTeleport"
+    set slot integers from 20 to 20 of {_MOD-PANEL_GUI} to {MOD-PANEL_goathorn} named "&e&lBroadcast"
+    set slot integers from 21 to 21 of {_MOD-PANEL_GUI} to blue ice named "&b&lFreeze"
+    set slot integers from 22 to 25 of {_MOD-PANEL_GUI} to red stained glass pane named "&cComing soon..."
+    set slot integers from 28 to 34 of {_MOD-PANEL_GUI} to red stained glass pane named "&cComing soon..."
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_player_control_Banmenu(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 5 rows named {@MOD-PANEL_Prefix} &8| &c&lBan"
+    set slot integers from 0 to 44 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 44 to 44 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    set slot integers from 10 to 10 of {_MOD-PANEL_GUI} to red stained glass named "&61 Minute"
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to red stained glass named "&65 Minutes"
+    set slot integers from 12 to 12 of {_MOD-PANEL_GUI} to red stained glass named "&615 Minutes"
+    set slot integers from 13 to 13 of {_MOD-PANEL_GUI} to red stained glass named "&630 Minutes"
+    set slot integers from 16 to 14 of {_MOD-PANEL_GUI} to red stained glass named "&61 Hour"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to red stained glass named "&63 Hours"
+    set slot integers from 16 to 16 of {_MOD-PANEL_GUI} to red stained glass named "&65 Hours"
+    set slot integers from 19 to 19 of {_MOD-PANEL_GUI} to red stained glass named "&68 Hours"
+    set slot integers from 20 to 20 of {_MOD-PANEL_GUI} to red stained glass named "&612 Hours"
+    set slot integers from 21 to 21 of {_MOD-PANEL_GUI} to red stained glass named "&61 Day"
+    set slot integers from 22 to 22 of {_MOD-PANEL_GUI} to red stained glass named "&63 Days"
+    set slot integers from 23 to 23 of {_MOD-PANEL_GUI} to red stained glass named "&67 Days"
+    set slot integers from 24 to 24 of {_MOD-PANEL_GUI} to red stained glass named "&614 Days"
+    set slot integers from 25 to 25 of {_MOD-PANEL_GUI} to red stained glass named "&630 Days"
+    set slot integers from 29 to 29 of {_MOD-PANEL_GUI} to red stained glass named "&63 Months"
+    set slot integers from 30 to 30 of {_MOD-PANEL_GUI} to red stained glass named "&66 Months"
+    set slot integers from 31 to 31 of {_MOD-PANEL_GUI} to red stained glass named "&61 Year"
+    set slot integers from 32 to 32 of {_MOD-PANEL_GUI} to red stained glass named "&62 Years"
+    set slot integers from 33 to 33 of {_MOD-PANEL_GUI} to red stained glass named "&6Permanent"
+    set slot integers from 40 to 40 of {_MOD-PANEL_GUI} to lime stained glass named "&aUnBan"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_player_control_Mutemenu1(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &c&lMute"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to red shulker box named "&c&lMute"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to lime shulker box named "&a&lUnMute"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_player_control_Warnmenu1(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &c&lWarn"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to red shulker box named "&c&lWarn"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to orange shulker box named "&6&lWarns"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_player_control_Warnmenu2(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 6 rows named {@MOD-PANEL_Prefix} &8| &c&lWarn"
+    set slot integers from 0 to 8 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 45 to 53 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 53 to 53 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+    set {_Var} to 8
+    loop {MOD-PANEL_Warns::%{MOD-PANEL_warn_player::%{_p}'s uuid%}'s uuid%::*}:
+        add 1 to {_Var}
+        set slot {_Var} of {_MOD-PANEL_GUI} to loop-value
+
+function GUI_MOD_PANEL_player_warncontrol_check(p: player):
+    set {_MOD-PANEL_player_warn} to {MOD-PANEL_player_warn::%{_p}'s uuid%}
+    set line 6 of lore of {_MOD-PANEL_player_warn} to ""
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &c&lWarn"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {_MOD-PANEL_player_warn}
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to red shulker box named "&c&lCancel"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to lime shulker box named "&a&lRemove"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_player_control_gamemode(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &e&lGamemode"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to grass block named "&6&lCreative"
+    set slot integers from 13 to 13 of {_MOD-PANEL_GUI} to {MOD-PANEL_iron_sword} named "&a&lSurvival"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to ender eye named "&b&lSpectator"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_player_control_teleport(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &e&lTeleport"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to beacon named "&6&lTo" with lore "&7Teleports you to &f%{MOD-PANEL_name_control_player::%{_p}'s uuid%}%"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to beacon named "&6&lHere" with lore "&7Teleports &f%{MOD-PANEL_name_control_player::%{_p}'s uuid%}% &7to you"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_player_control_freeze(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &b&lFreeze"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to ice named "&b&lFreeze"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to magma block named "&c&lUnFreeze"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_staff_tools(p: player):
+    set {_MOD-PANEL_GUI} to a new chest inventory with 5 rows named {@MOD-PANEL_Prefix} &8| &6&lStaff-Tools"
+    set slot integers from 0 to 44 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 10 to 10 of {_MOD-PANEL_GUI} to writable book named "&6&lStaff-Chat"
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to {MOD-PANEL_goathorn} named "&6&lBroadcast"
+    set slot integers from 12 to 12 of {_MOD-PANEL_GUI} to compass named "&6&lChat-Lock"
+    set slot integers from 13 to 16 of {_MOD-PANEL_GUI} to red stained glass pane named "&cComing soon..."
+    set slot integers from 19 to 25 of {_MOD-PANEL_GUI} to red stained glass pane named "&cComing soon..."
+    set slot integers from 28 to 34 of {_MOD-PANEL_GUI} to red stained glass pane named "&cComing soon..."
+    set slot integers from 44 to 44 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_staff_chat(p: player):
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &6&lStaff-Chat"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to writable book named "&aEnable &6Staff-Chat mode"
+    set slot integers from 13 to 13 of {_MOD-PANEL_GUI} to name tag named "&6Type to Staff-Chat"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to book named "&cDisable &6Staff-Chat mode"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_chat_lock(p: player):
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &6&lChat-Lock"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to red shulker box named "&cDisable &6Chat-Lock"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to lime shulker box named "&aEnable &6Chat-Lock"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+
+function GUI_MOD_PANEL_addons(p: player):
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &6&lAddons"
+    set slot integers from 0 to 8 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 18 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    open {_MOD-PANEL_GUI} to {_p}
+    set {_Var} to 8
+    loop {MOD-PANEL_addons::*}:
+        add 1 to {_Var}
+        set slot {_Var} of {_MOD-PANEL_GUI} to loop-value
+
+function MOD_PANEL_Staff_Chat(p: player, m: text):
+        send "" to {MOD-PANEL_STAFF::*}
+        send "&6&l[Staff-Chat]: &a%{_m}%  &2*%{_p}%*" to {MOD-PANEL_STAFF::*}
+        send "" to {MOD-PANEL_STAFF::*}
+
+
+
+
+
+command /MOD-PANEL [<text>] [<offline player>] [<timespan>] [<gamemode>] [<offline player>]:
+    permission: MOD-PANEL
+    permission message: &cYou don't have permission to run that command!
+    trigger:
+        if name of player's current inventory contains {@MOD-PANEL_Prefix}":
+            if arg-1 is "ban":
+                set {MOD-PANEL_ban_player::%player's uuid%} to arg-2
+                if {MOD-PANEL_banned::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} is true:
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Is already Banned!" to player
+                    play sound "minecraft:block.note_block.bass" to player
+                else:
+                    if arg-3 is set:
+                        set {MOD-PANEL_ban_duration::%player's uuid%} to arg-3
+                    else:
+                        set {MOD-PANEL_ban_duration::%player's uuid%} to "permanent"
+                    set {MOD-PANEL_banning::%player's uuid%} to true
+                    close player's inventory
+                    send {@MOD-PANEL_Prefix} &8&l» &7Type reason to &f%arg-2%'s &7Ban!" to player
+                    send {@MOD-PANEL_Prefix} &8&l» &7cancel by typing ¨&ccancel&7¨ to chat." to player
+
+            else if arg-1 is "unban":
+                set {MOD-PANEL_ban_player::%player's uuid%} to arg-2
+                if {MOD-PANEL_banned::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} is true:
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Is now UnBanned!" to player
+                    delete {MOD-PANEL_banned::%arg-2's uuid%}
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Isn't Banned!" to player
+                    play sound "minecraft:block.note_block.bass" to player
+            
+            else if arg-1 is "kick":
+                if arg-2 is online:
+                    set {MOD-PANEL_kick_player::%player's uuid%} to arg-2
+                    set {MOD-PANEL_kicking::%player's uuid%} to true
+                    close player's inventory
+                    send {@MOD-PANEL_Prefix} &8&l» &7Type reason to &f%arg-2%'s &7Kick!" to player
+                    send {@MOD-PANEL_Prefix} &8&l» &7cancel by typing ¨&ccancel&7¨ to chat." to player
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
+                    play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "mute":
+                if {MOD-PANEL_mute::%arg-2's uuid%} is true:
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Is already Muted!" to player
+                    play sound "minecraft:block.note_block.bass" to player
+                else:
+                    set {MOD-PANEL_mute::%arg-2's uuid%} to true
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Is now &cMuted!" to player
+                    send {@MOD-PANEL_Prefix} &8&l» &7You have been &cMuted &7by staff!" to arg-2
+                    play sound "minecraft:block.note_block.bass" to arg-2
+                    play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "unmute":
+                if {MOD-PANEL_mute::%arg-2's uuid%} is set:
+                    delete {MOD-PANEL_mute::%arg-2's uuid%}
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Is now &aUnMuted!" to player
+                    send {@MOD-PANEL_Prefix} &8&l» &7You have been &aUnMuted &7by staff!" to arg-2
+                    play sound "minecraft:block.note_block.chime" to arg-2
+                    play sound "minecraft:block.note_block.chime" to player
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Isn't Muted!" to player
+                    play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "warn":
+                set {MOD-PANEL_warn_player::%player's uuid%} to arg-2
+                set {MOD-PANEL_warning::%player's uuid%} to true
+                close player's inventory
+                send {@MOD-PANEL_Prefix} &8&l» &7Type &f%arg-2%'s &7Warn!" to player
+                send {@MOD-PANEL_Prefix} &8&l» &7cancel by typing ¨&ccancel&7¨ to chat." to player
+
+            else if arg-1 is "warns":
+                set {MOD-PANEL_warn_player::%player's uuid%} to arg-2
+                GUI_MOD_PANEL_player_control_Warnmenu2(player)
+
+            else if arg-1 is "unwarn":
+                remove {MOD-PANEL_player_warn::%player's uuid%} from {MOD-PANEL_Warns::%arg-2's uuid%::*}
+
+            else if arg-1 is "invsee":
+                if arg-2 is online:
+                    open arg-2's inventory to player
+                    send {@MOD-PANEL_Prefix} &8&l» &7Opened &f%arg-2%'s &7inventory" to player
+                    play sound "minecraft:block.chest.open" to player
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
+                    play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "endersee":
+                if arg-2 is online:
+                    open arg-2's ender chest to player
+                    send {@MOD-PANEL_Prefix} &8&l» &7Opened &f%arg-2%'s &7ender chest" to player
+                    play sound "minecraft:block.ender_chest.open" to player
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
+                    play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "gamemode":
+                if arg-3 is set:
+                    set {MOD-PANEL_player_gamemode::%arg-2's uuid%} to arg-2's gamemode
+                    set arg-2's gamemode to arg-4
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2%'s &7gamemode is now &f%arg-4%" to player
+                    play sound "minecraft:entity.enderman.teleport" to arg-2
+                    play sound "minecraft:entity.enderman.teleport" to player
+                else:
+                    if arg-2 is online:
+                        GUI_MOD_PANEL_player_control_gamemode(player)
+                    else:
+                        send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
+                        play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "teleport":
+                if arg-3 is set:
+                    teleport arg-2 to arg-5
+                    send {@MOD-PANEL_Prefix} &8&l» &7Teleported &f%arg-2% &7to &f%arg-5%" to player
+                    play sound "minecraft:entity.warden.sonic_boom" to player
+                    close player's inventory
+                else:
+                    if arg-2 is online:
+                        GUI_MOD_PANEL_player_control_teleport(player)
+                    else:
+                        send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
+                        play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "broadcast":
+                if arg-3 is set:
+                    if arg-2 is online:
+                        set {MOD-PANEL_broadcast_player::%player's uuid%} to arg-2
+                        set {MOD-PANEL_broadcasting::%player's uuid%} to true
+                        close player's inventory
+                        send {@MOD-PANEL_Prefix} &8&l» &7Type &f%arg-2%'s &7Broadcast!" to player
+                        send {@MOD-PANEL_Prefix} &8&l» &7cancel by typing ¨&ccancel&7¨ to chat." to player
+                    else:
+                        send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
+                        play sound "minecraft:block.note_block.bass" to player
+                else:
+                    set {MOD-PANEL_broadcasting::%player's uuid%} to true
+                    close player's inventory
+                    send {@MOD-PANEL_Prefix} &8&l» &7Type &fall players &7Broadcast!" to player
+                    send {@MOD-PANEL_Prefix} &8&l» &7cancel by typing ¨&ccancel&7¨ to chat." to player
+
+            else if arg-1 is "freeze":
+                if arg-3 is set:
+                    if {MOD-PANEL_freeze::%arg-2's uuid%} is true:
+                        send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Is already Freezed!" to player
+                        play sound "minecraft:block.note_block.bass" to player
+                    else:
+                        set {MOD-PANEL_freeze::%arg-2's uuid%} to true
+                        send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Is now &bFreezed!" to player
+                        send {@MOD-PANEL_Prefix} &8&l» &7You have been &bFreezed &7by staff!" to arg-2
+                        play sound "minecraft:entity.player.hurt_freeze" with pitch 0 to arg-2
+                        play sound "minecraft:entity.player.hurt_freeze" with pitch 0 to player
+                        send title "&7You are &b&lFreezed" with subtitle "&7By &x&0&0&F&B&4&E&lM&x&0&0&F&B&6&4&lO&x&0&0&F&A&7&A&lD&x&0&0&F&A&9&0&l-&x&0&0&F&9&A&7&lP&x&0&0&F&9&B&D&lA&x&0&0&F&8&D&3&lN&x&0&0&F&8&E&9&lE&x&0&0&F&7&F&F&lL &7staff" to arg-2 for 99 days
+                else:
+                    if arg-2 is online:
+                        GUI_MOD_PANEL_player_control_freeze(player)
+                    else:
+                        send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
+                        play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "unfreeze":
+                if {MOD-PANEL_freeze::%arg-2's uuid%} is set:
+                    delete {MOD-PANEL_freeze::%arg-2's uuid%}
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Is now &3UnFreezed!" to player
+                    send {@MOD-PANEL_Prefix} &8&l» &7You have been &3UnFreezed &7by staff!" to arg-2
+                    play sound "minecraft:block.note_block.chime" to arg-2
+                    play sound "minecraft:block.note_block.chime" to player
+                    reset the titles of arg-2
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Isn't Freezed!" to player
+                    play sound "minecraft:block.note_block.bass" to player
+
+        else:
+            send {@MOD-PANEL_Prefix} &8&l» &7This command can be only executed by panel!" to player
+            play sound "minecraft:block.note_block.bass" to player
+
+
+
+
+
+
+
+
+
+on inventory click:
+    if name of player's current inventory contains {@MOD-PANEL_Prefix}" or {@MOD-PANEL_Report.System_Prefix}":
+        cancel event
+        if clicked inventory != player's inventory:
+
+            if event-item is spectral arrow named "&f&lNext":
+                play sound "minecraft:item.book.page_turn" to player
+                if name of player's current inventory is {@MOD-PANEL_Prefix} &8(&e1&8/&e3&8)":
+                    GUI_MOD_PANEL_online_menu2(player)
+                else if name of player's current inventory is {@MOD-PANEL_Prefix} &8(&e2&8/&e3&8)":
+                    GUI_MOD_PANEL_online_menu3(player)
+
+            else if event-item is spectral arrow named "&f&lBack":
+                play sound "minecraft:item.book.page_turn" to player
+                if name of player's current inventory is {@MOD-PANEL_Prefix} &8(&e2&8/&e3&8)":
+                    GUI_MOD_PANEL_online_menu1(player)
+                else if name of player's current inventory is {@MOD-PANEL_Prefix} &8(&e3&8/&e3&8)":
+                    GUI_MOD_PANEL_online_menu2(player)
+
+            else if event-item is player head:
+                if name of player's current inventory is {@MOD-PANEL_Prefix} &8(&e1&8/&e3&8)" or {@MOD-PANEL_Prefix} &8(&e2&8/&e3&8)" or {@MOD-PANEL_Prefix} &8(&e3&8/&e3&8)":
+                    set {MOD-PANEL_control_player::%player's uuid%} to event-item
+                    set {MOD-PANEL_name_control_player::%player's uuid%} to event-item's name
+                    GUI_MOD_PANEL_player_control(player)
+
+            else if event-item is barrier named "&c&lBack":
+                if event-slot is 44 or 26 or 53:
+                    if name of player's current inventory contains {@MOD-PANEL_Prefix} &8|":
+                        if name of player's current inventory is {@MOD-PANEL_Prefix} &8| &6&lAddons" or {@MOD-PANEL_Prefix} &8| &6&lStaff-Tools":
+                            GUI_MOD_PANEL_online_menu1(player)
+                        else if name of player's current inventory is {@MOD-PANEL_Prefix} &8| &6&lStaff-Chat" or {@MOD-PANEL_Prefix} &8| &6&lChat-Lock":
+                            GUI_MOD_PANEL_staff_tools(player)
+                        else:
+                            GUI_MOD_PANEL_player_control(player)
+                    else:
+                        GUI_MOD_PANEL_online_menu1(player)
+
+            else if event-item is chest named "&6&lAddons":
+                GUI_MOD_PANEL_addons(player)
+
+            else if event-item is crafting table named "&6&lSTAFF-Tools":
+                GUI_MOD_PANEL_staff_tools(player)
+
+            else if event-item is {MOD-PANEL_mace} named "&4&lBan":
+                GUI_MOD_PANEL_player_control_Banmenu(player)
+
+            else if event-item is red stained glass:
+                if name of player's current inventory is {@MOD-PANEL_Prefix} &8| &c&lBan":
+                    if event-item's name is "&6Permanent":
+                        make player execute command "/MOD-PANEL ban %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                    else:
+                        make player execute command "/MOD-PANEL ban %{MOD-PANEL_name_control_player::%player's uuid%}% %uncolored event-item's name%"
+
+            else if event-item is lime stained glass named "&aUnBan":
+                make player execute command "/MOD-PANEL unban %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is rabbit foot named "&4&lKick":
+                make player execute command "/MOD-PANEL kick %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is recovery compass named "&c&lMute":
+                GUI_MOD_PANEL_player_control_Mutemenu1(player)
+
+            else if event-item is red shulker box named "&c&lMute":
+                make player execute command "/MOD-PANEL mute %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is lime shulker box named "&a&lUnMute":
+                make player execute command "/MOD-PANEL unmute %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is barrel named "&c&lWarn":
+                GUI_MOD_PANEL_player_control_Warnmenu1(player)
+
+            else if event-item is red shulker box named "&c&lWarn":
+                make player execute command "/MOD-PANEL warn %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is orange shulker box named "&6&lWarns":
+                make player execute command "/MOD-PANEL warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is map:
+                if name of player's current inventory is {@MOD-PANEL_Prefix} &8| &c&lWarn":
+                    if event-item's name contains "&4&lWarn &8[&fID:":
+                        set {MOD-PANEL_player_warn::%player's uuid%} to event-item
+                        GUI_MOD_PANEL_player_warncontrol_check(player)
+
+            else if event-item is lime shulker box named "&a&lRemove":
+                make player execute command "/MOD-PANEL unwarn %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                loop {MOD-PANEL_STAFF::*}:
+                    send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &aUnWarned: &f%line 3 of lore of {MOD-PANEL_player_warn::%player's uuid%}% &7By: &f%player%" to loop-value
+                    stop loop
+                make player execute command "/MOD-PANEL warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is red shulker box named "&c&lCancel":
+                make player execute command "/MOD-PANEL warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
+            
+            else if event-item is chest named "&6&lInv&f&lsee":
+                make player execute command "/MOD-PANEL invsee %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is ender chest named "&5&lEnder&f&lsee":
+                make player execute command "/MOD-PANEL endersee %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is crafter named "&e&lGamemode":
+                make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is grass block named "&6&lCreative":
+                make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
+
+            else if event-item is {MOD-PANEL_iron_sword} named "&a&lSurvival":
+                make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
+
+            else if event-item is ender eye named "&b&lSpectator":
+                make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
+
+            else if event-item is ender pearl named "&e&lTeleport":
+                make player execute command "/MOD-PANEL teleport %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is beacon named "&6&lTo":
+                make player execute command "/MOD-PANEL teleport %player% 1 minutes survival %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is beacon named "&6&lHere":
+                make player execute command "/MOD-PANEL teleport %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes survival %player%"
+
+            else if event-item is blue ice named "&b&lFreeze":
+                make player execute command "/MOD-PANEL freeze %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is ice named "&b&lFreeze":
+                make player execute command "/MOD-PANEL freeze %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
+
+            else if event-item is magma block named "&c&lUnFreeze":
+                make player execute command "/MOD-PANEL unfreeze %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is writable book named "&6&lStaff-Chat":
+                GUI_MOD_PANEL_staff_chat(player)
+
+            else if event-item is writable book named "&aEnable &6Staff-Chat mode":
+                if {MOD-PANEL_staff_chat_mode::%player's uuid%} is true:
+                    send {@MOD-PANEL_Prefix} &8&l» &6&lStaff-Chat &7mode is already Enabled" to player
+                    play sound "minecraft:block.note_block.bass" to player
+                else:
+                    set {MOD-PANEL_staff_chat_mode::%player's uuid%} to true
+                    send {@MOD-PANEL_Prefix} &8&l» &6&lStaff-Chat &7mode is now &aEnabled" to player
+                    play sound "minecraft:block.note_block.chime" to player
+
+            else if event-item is name tag named "&6Type to Staff-Chat":
+                set {MOD-PANEL_staff_chat::%player's uuid%} to true
+                send {@MOD-PANEL_Prefix} &8&l» &7Send message to &6&lStaff-Chat" to player
+                close player's inventory
+
+            else if event-item is book named "&cDisable &6Staff-Chat mode":
+                if {MOD-PANEL_staff_chat_mode::%player's uuid%} is true:
+                    delete {MOD-PANEL_staff_chat_mode::%player's uuid%}
+                    send {@MOD-PANEL_Prefix} &8&l» &6&lStaff-Chat &7mode is now &cDisabled" to player
+                    play sound "minecraft:block.note_block.chime" to player
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &6&lStaff-Chat &7mode is already Disabled" to player
+                    play sound "minecraft:block.note_block.bass" to player
+
+            else if event-item is {MOD-PANEL_goathorn} named "&e&lBroadcast":
+                make player execute command "/MOD-PANEL broadcast %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
+            else if event-item is {MOD-PANEL_goathorn} named "&6&lBroadcast":
+                make player execute command "/MOD-PANEL broadcast %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
+            else if event-item is compass named "&6&lChat-Lock":
+                GUI_MOD_PANEL_chat_lock(player)
+
+            else if event-item is red shulker box named "&cDisable &6Chat-Lock":
+                if {MOD-PANEL_chat_lock} is true:
+                    delete {MOD-PANEL_chat_lock}
+                    send {@MOD-PANEL_Prefix} &8&l» &6&lChat-Lock &7is now &cDisabled" to player
+                    play sound "minecraft:block.note_block.chime" to player
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &6&lChat-Lock &7is already Disabled" to player
+                    play sound "minecraft:block.note_block.bass" to player
+
+            else if event-item is lime shulker box named "&aEnable &6Chat-Lock":
+                if {MOD-PANEL_chat_lock} is true:
+                    send {@MOD-PANEL_Prefix} &8&l» &6&lChat-Lock &7is already Enabled" to player
+                    play sound "minecraft:block.note_block.bass" to player
+                else:
+                    set {MOD-PANEL_chat_lock} to true
+                    send {@MOD-PANEL_Prefix} &8&l» &6&lChat-Lock &7is now &aEnabled" to player
+                    play sound "minecraft:block.note_block.chime" to player
+
+            else if event-item is ender chest named {@MOD-PANEL_Prefix}":
+                GUI_MOD_PANEL_online_menu1(player)
+
+
+
+
+
+
+on chat:
+    if {MOD-PANEL_kicking::%player's uuid%} is true:
+        cancel event
+        delete {MOD-PANEL_kicking::%player's uuid%}
+        if message is "cancel":
+            send {@MOD-PANEL_Prefix} &8&l» &7canceled &f%{MOD-PANEL_name_control_player::%player's uuid%}%'s &7Kick!" to player
+        else:
+            kick {MOD-PANEL_kick_player::%player's uuid%} due to {@MOD-PANEL_Prefix}%nl%%nl%&8| &c&lKicked By: &f%player% &8|%nl%%nl%&8| &c&lReason: &f%message% &8|%nl%"
+            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &ckicked &7with &freason: %message%" to {MOD-PANEL_STAFF::*}
+        delete {MOD-PANEL_kick_player::%player's uuid%}
+
+    else if {MOD-PANEL_banning::%player's uuid%} is true:
+        cancel event
+        delete {MOD-PANEL_banning::%player's uuid%}
+        if message is "cancel":
+            send {@MOD-PANEL_Prefix} &8&l» &7canceled &f%{MOD-PANEL_name_control_player::%player's uuid%}%'s &7Ban!" to player
+        else:
+            set {_MOD-PANEL_now1} and {_MOD-PANEL_now2} to now
+            set {_MOD-PANEL_timespan_seconds} to seconds of {MOD-PANEL_ban_duration::%player's uuid%}
+            set {_MOD-PANEL_timespan1} to ({_MOD-PANEL_timespan_seconds} / 2)
+            set {_MOD-PANEL_timespan2} to {MOD-PANEL_ban_duration::%player's uuid%}
+            add {_MOD-PANEL_timespan1} to {_MOD-PANEL_now1}
+            add {_MOD-PANEL_timespan2} to {_MOD-PANEL_now2}
+            set {_MOD-PANEL_remaining1} to {_MOD-PANEL_now1}
+            set {_MOD-PANEL_remaining2} to {_MOD-PANEL_now2}
+            set {MOD-PANEL_expire::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to {_MOD-PANEL_remaining1}
+            set {MOD-PANEL_expire_message::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to {_MOD-PANEL_remaining2}
+            set {MOD-PANEL_reason::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to message
+            set {MOD-PANEL_duration::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to {MOD-PANEL_ban_duration::%player's uuid%}
+            set {MOD-PANEL_banned_by::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to player
+            set {MOD-PANEL_banned::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to true
+            kick {MOD-PANEL_ban_player::%player's uuid%} due to {@MOD-PANEL_Prefix}%nl%%nl%&8| &c&lBanned By: &f%{MOD-PANEL_banned_by::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%}% &8|%nl%%nl%&8| &c&lReason: &f%{MOD-PANEL_reason::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%}% &8|%nl%%nl%&8| &c&lDuration: &6%{MOD-PANEL_duration::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%}% &8|%nl%%nl%&8| &c&lExpires: &6%{MOD-PANEL_expire_message::%player's uuid%}% &8|%nl%"
+            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &cBanned &7for with &freason: %message% &7and &fDuration: %{MOD-PANEL_ban_duration::%player's uuid%}%" to {MOD-PANEL_STAFF::*}
+        delete {MOD-PANEL_ban_player::%player's uuid%}
+
+    else if {MOD-PANEL_warning::%player's uuid%} is true:
+        cancel event
+        delete {MOD-PANEL_warning::%player's uuid%}
+        if message is "cancel":
+            send {@MOD-PANEL_Prefix} &8&l» &7canceled &f%{MOD-PANEL_name_control_player::%player's uuid%}%'s &7Warn!" to player
+        else:
+            add 1 to {MOD-PANEL_Warn_ID::%{MOD-PANEL_warn_player::%player's uuid%}%}
+            add map named "&4&lWarn &8[&fID: %{MOD-PANEL_Warn_ID::%{MOD-PANEL_warn_player::%player's uuid%}'s uuid%}%&8]" with lore "" and "&6&lDetails:" and "&f%message%" and "&6&lGiver: &f%player%" and "" and "&8&oClick to remove" to {MOD-PANEL_Warns::%{MOD-PANEL_warn_player::%player's uuid%}'s uuid%::*}
+            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &cWarned: &f%message% &7By: &f%player%" to {MOD-PANEL_STAFF::*}
+            send {@MOD-PANEL_Prefix} &8&l» &7You have been &cWarned: &f%message% &7By: &f%player%" to {MOD-PANEL_warn_player::%player's uuid%}
+            play sound "minecraft:block.note_block.bass" to {MOD-PANEL_warn_player::%player's uuid%}
+        delete {MOD-PANEL_warn_player::%player's uuid%}
+
+    else if {MOD-PANEL_broadcasting::%player's uuid%} is true:
+        cancel event
+        delete {MOD-PANEL_broadcasting::%player's uuid%}
+        if message is "cancel":
+            send {@MOD-PANEL_Prefix} &8&l» &7canceled &f%{MOD-PANEL_name_control_player::%player's uuid%}%'s &7Broadcast!" to player
+        else:
+            if {MOD-PANEL_broadcast_player::%player's uuid%} is set:
+                send "" to {MOD-PANEL_broadcast_player::%player's uuid%}
+                send "&e&lBroadcast: &f%message%" to {MOD-PANEL_broadcast_player::%player's uuid%}
+                send "" to {MOD-PANEL_broadcast_player::%player's uuid%}
+                delete {MOD-PANEL_broadcast_player::%player's uuid%}
+            else:
+                send "" to all players
+                send "&e&lBroadcast: &f%message%" to all players
+                send "" to all players
+
+    else if {MOD-PANEL_staff_chat::%player's uuid%} is true:
+        cancel event
+        delete {MOD-PANEL_staff_chat::%player's uuid%}
+        MOD_PANEL_Staff_Chat(player, message)
+
+    else if {MOD-PANEL_staff_chat_mode::%player's uuid%} is true:
+        cancel event
+        MOD_PANEL_Staff_Chat(player, message)
+
+    else if {MOD-PANEL_chat_lock} is true:
+        if {MOD-PANEL_STAFF::*} do not contain player:
+            cancel event
+            send {@MOD-PANEL_Prefix} &8&l» &cChat is locked by staff!" to player
+            play sound "minecraft:block.note_block.bass" to player
+
+    else if {MOD-PANEL_mute::%player's uuid%} is true:
+        cancel event
+        send {@MOD-PANEL_Prefix} &8&l» &7You have been &cMuted &7by staff!" to player
+        play sound "minecraft:block.note_block.bass" to player
+
+on player move:
+    if {MOD-PANEL_freeze::%player's uuid%} is true:
+        cancel event
+
+
+
+
+
+
+
+on connect:
+    if {MOD-PANEL_banned::%player's uuid%} is true:
+        if difference between now and {MOD-PANEL_expire::%player's uuid%} > {MOD-PANEL_duration::%player's uuid%}:
+            delete {MOD-PANEL_banned::%player's uuid%}
+        else:
+            kick player due to {@MOD-PANEL_Prefix}%nl%%nl%&8| &c&lBanned By: &f%{MOD-PANEL_banned_by::%player's uuid%}% &8|%nl%%nl%&8| &c&lReason: &f%{MOD-PANEL_reason::%player's uuid%}% &8|%nl%%nl%&8| &c&lDuration: &6%{MOD-PANEL_duration::%player's uuid%}% &8|%nl%%nl%&8| &c&lExpires: &6%{MOD-PANEL_expire_message::%player's uuid%}% &8|%nl%"
+
+on join:
+    if {MOD-PANEL_joined::%player's uuid%} is not set:
+        set {MOD-PANEL_joined::%player's uuid%} to true
+        add 1 to {MOD-PANEL_all_players}
+        set {MOD-PANEL_player_name::%player's uuid%} to player's skull named "%player%"
+        if {MOD-PANEL_player_count} > 89:
+            add player's skull named "%player%" to {MOD-PANEL_online_players3::*}
+            add 1 to {MOD-PANEL_player_count}
+        else if {MOD-PANEL_player_count} > 44:
+            add player's skull named "%player%" to {MOD-PANEL_online_players2::*}
+            add 1 to {MOD-PANEL_player_count}
+        else:
+            add player's skull named "%player%" to {MOD-PANEL_online_players1::*}
+            add 1 to {MOD-PANEL_player_count}
+    else:
+        if {MOD-PANEL_online_players3::*} contains {MOD-PANEL_player_name::%player's uuid%}:
+            remove {MOD-PANEL_player_name::%player's uuid%} from {MOD-PANEL_online_players3::*}
+            add player's skull named "%player%" to {MOD-PANEL_online_players3::*}
+            set {MOD-PANEL_player_name::%player's uuid%} to player's skull named "%player%"
+        else if {MOD-PANEL_online_players2::*} contains {MOD-PANEL_player_name::%player's uuid%}:
+            remove {MOD-PANEL_player_name::%player's uuid%} from {MOD-PANEL_online_players2::*}
+            add player's skull named "%player%" to {MOD-PANEL_online_players2::*}
+            set {MOD-PANEL_player_name::%player's uuid%} to player's skull named "%player%"
+        else if {MOD-PANEL_online_players1::*} contains {MOD-PANEL_player_name::%player's uuid%}:
+            remove {MOD-PANEL_player_name::%player's uuid%} from {MOD-PANEL_online_players1::*}
+            add player's skull named "%player%" to {MOD-PANEL_online_players1::*}
+            set {MOD-PANEL_player_name::%player's uuid%} to player's skull named "%player%"
+
+
+
+on quit:
+    if {MOD-PANEL_kicking::%player's uuid%} is true:
+        delete {MOD-PANEL_kicking::%player's uuid%}
+    else if {MOD-PANEL_banning::%player's uuid%} is true:
+        delete {MOD-PANEL_banning::%player's uuid%}
+    else if {MOD-PANEL_warning::%player's uuid%} is true:
+        delete {MOD-PANEL_warning::%player's uuid%}
+    else if {MOD-PANEL_staff_chat::%player's uuid%} is true:
+        delete {MOD-PANEL_staff_chat::%player's uuid%}
+    else if {MOD-PANEL_staff_chat_mode::%player's uuid%} is true:
+        delete {MOD-PANEL_staff_chat_mode::%player's uuid%}
+    else if {MOD-PANEL_control_player::%player's uuid%} is set:
+        delete {MOD-PANEL_control_player::%player's uuid%}
+    else if {MOD-PANEL_name_control_player::%player's uuid%} is set:
+        delete {MOD-PANEL_name_control_player::%player's uuid%}
+
+options:
+
+    MOD-PANEL_Prefix: "&x&0&0&F&B&4&E&lM&x&0&0&F&B&6&4&lO&x&0&0&F&A&7&A&lD&x&0&0&F&A&9&0&l-&x&0&0&F&9&A&7&lP&x&0&0&F&9&B&D&lA&x&0&0&F&8&D&3&lN&x&0&0&F&8&E&9&lE&x&0&0&F&7&F&F&lL
+    MOD-PANEL_Report.System_Prefix: "&x&A&B&0&0&0&0&lR&x&B&1&0&D&0&0&le&x&B&7&1&9&0&0&lp&x&B&C&2&6&0&0&lo&x&C&2&3&2&0&0&lr&x&C&8&3&F&0&0&lt&x&C&E&4&C&0&0&l-&x&D&3&5&8&0&0&lS&x&D&9&6&5&0&0&ly&x&D&F&7&1&0&0&ls&x&E&5&7&E&0&0&lt&x&E&A&8&A&0&0&le&x&F&0&9&7&0&0&lm
+
+    #! Do NOT change this !
+    version: 1.2.0.1
+
+on load:
+    set {MOD-PANEL_Report.system} to false
+    wait 10 ticks
+    set {MOD-PANEL_Plugin} to true
+    wait 10 ticks
+
+    delete {MOD-PANEL_addons::*}
+    delete {MOD-PANEL_console_addons::*}
+    if {MOD-PANEL_Report.system} is true:
+        if {MOD-PANEL_addons::*} do not contain red glazed terracotta named {@MOD-PANEL_Report.System_Prefix}" with lore "&8&oClick to open":
+            add red glazed terracotta named {@MOD-PANEL_Report.System_Prefix}" with lore "&8&oClick to open" to {MOD-PANEL_addons::*}
+            add "&cReport-System&7" to {MOD-PANEL_console_addons::*}
+    else if {MOD-PANEL_Report.system} is false:
+        if {MOD-PANEL_addons::*} contains red glazed terracotta named {@MOD-PANEL_Report.System_Prefix}" with lore "&8&oClick to open":
+            remove red glazed terracotta named {@MOD-PANEL_Report.System_Prefix}" with lore "&8&oClick to open" from {MOD-PANEL_addons::*}
+            remove "&cReport-System&7" from {MOD-PANEL_console_addons::*}
+
+    set {MOD-PANEL_mace} to mace
+    loop all attribute types:
+        add default loop-value modifier of {MOD-PANEL_mace} to loop-value modifier of {MOD-PANEL_mace}
+    add hide attributes to item flags of {MOD-PANEL_mace}
+
+    set {MOD-PANEL_iron_sword} to iron sword
+    loop all attribute types:
+        add default loop-value modifier of {MOD-PANEL_iron_sword} to loop-value modifier of {MOD-PANEL_iron_sword}
+    add hide attributes to item flags of {MOD-PANEL_iron_sword}
+
+    set {MOD-PANEL_goathorn} to goat horn
+    add hide additional tooltip to item flags of {MOD-PANEL_goathorn}
+
+on skript load:
+    wait 20 ticks
+    send {@MOD-PANEL_Prefix} &8» &fEnabling..." to console
+    wait 40 ticks
+    send "&7&m-------------------------" to console
+    send "&fLoaded &x&0&0&F&B&4&E&lM&x&0&0&F&B&6&4&lO&x&0&0&F&A&7&A&lD&x&0&0&F&A&9&0&l-&x&0&0&F&9&A&7&lP&x&0&0&F&9&B&D&lA&x&0&0&F&8&D&3&lN&x&0&0&F&8&E&9&lE&x&0&0&F&7&F&F&lL &9v.{@version} &a[Beta]" to console
+    send "&7&m-------------------------" to console
+    send {@MOD-PANEL_Prefix} &8» &7Checking for addons..." to console
+    wait 30 ticks
+    send {@MOD-PANEL_Prefix} &8» &7Found &3%number of {MOD-PANEL_console_addons::*}% &7addon(s)" to console
+    if number of {MOD-PANEL_console_addons::*} > 0:
+        send {@MOD-PANEL_Prefix} &8» &3addons: %{MOD-PANEL_console_addons::*}%" to console
+
+on skript unload:
+    send {@MOD-PANEL_Prefix} &8» &fDisabling..." to console
+    send "&7&m-------------------------" to console
+    send "&fDisabled &x&0&0&F&B&4&E&lM&x&0&0&F&B&6&4&lO&x&0&0&F&A&7&A&lD&x&0&0&F&A&9&0&l-&x&0&0&F&9&A&7&lP&x&0&0&F&9&B&D&lA&x&0&0&F&8&D&3&lN&x&0&0&F&8&E&9&lE&x&0&0&F&7&F&F&lL &9v.{@version} &a[Beta]" to console
+    send "&7&m-------------------------" to console
