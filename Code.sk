@@ -831,6 +831,7 @@ on join:
         set {MOD-PANEL_joined::%player's uuid%} to true
         add 1 to {MOD-PANEL_all_players}
         add player's skull named "%player%" to {MOD-PANEL_online_players::*}
+        set {MOD-PANEL_player_name::%player's uuid%} to player's skull named "%player%"
     else:
         if {MOD-PANEL_online_players::*} contains {MOD-PANEL_player_name::%player's uuid%}:
             remove {MOD-PANEL_player_name::%player's uuid%} from {MOD-PANEL_online_players::*}
