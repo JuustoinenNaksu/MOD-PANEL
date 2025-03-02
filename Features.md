@@ -1,5 +1,6 @@
 # Player list:
   - Skin/Name updater [Beta]
+  - Automatic Pagination system [Beta]
 
 # Player control:
   - Player status
@@ -10,6 +11,7 @@
   - InvSee
   - EnderSee
   - GameMode
+  - MSG
   - Teleport
   - Broadcast
   - Freeze
