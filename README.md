@@ -6,5 +6,5 @@ MOD-PANEL is for minecraft servers to help staff moderate the server easily.
 -
 - **Downloads**: 
   - Skript here: [https://github.com/SkriptLang/Skript/releases](https://github.com/SkriptLang/Skript/releases)
-  - SkBee here: [https://github.com/ShaneBeee/SkBee/releases](https://github.com/ShaneBeee/SkBee/releases))
-  - Skript-gui here: [https://github.com/APickledWalrus/skript-gui/releases](https://github.com/APickledWalrus/skript-gui/releases) (recommended)
+  - SkBee here: [https://github.com/ShaneBeee/SkBee/releases](https://github.com/ShaneBeee/SkBee/releases)
+  - Skript-gui here: [https://github.com/APickledWalrus/skript-gui/releases](https://github.com/APickledWalrus/skript-gui/releases)
