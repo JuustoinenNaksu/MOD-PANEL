@@ -261,6 +261,20 @@ function GUI_MOD_PANEL_player_control_gamemode(p: player):
     set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack" with lore "&8Back to player-control"
     open {_MOD-PANEL_GUI} to {_p}
 
+function GUI_MOD_PANEL_player_control_MSG(p: player):
+    set {_MOD-PANEL_player_status} to "&cOffline"
+    loop all players:
+        if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
+            if loop-player is online:
+                set {_MOD-PANEL_player_status} to "&aOnline"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &e&lMSG"
+    set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to lime shulker box named "&a&lEnable" with lore "&8Enables MSG mode between &fyou &8and &f%{MOD-PANEL_name_control_player::%{_p}'s uuid%}%"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to red shulker box named "&c&lDisable" with lore "&8Disables MSG mode between &fyou &8and &f%{MOD-PANEL_name_control_player::%{_p}'s uuid%}%"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack" with lore "&8Back to player-control"
+    open {_MOD-PANEL_GUI} to {_p}
+
 function GUI_MOD_PANEL_player_control_teleport(p: player):
     set {_MOD-PANEL_player_status} to "&cOffline"
     loop all players:
@@ -360,6 +374,17 @@ function MOD_PANEL_Staff_Chat(p: player, m: text):
         send "" to {MOD-PANEL_STAFF::*}
         send "&6&l[Staff-Chat]: &a%{_m}%  &2*%{_p}%*" to {MOD-PANEL_STAFF::*}
         send "" to {MOD-PANEL_STAFF::*}
+
+function MOD_PANEL_MSG(p1: player, p2: player, m: text):
+    if {MOD-PANEL_STAFF::*} contains {_p1}:
+        send "" to {_p1} and {_p2}
+        send "&e&lMSG: &f%{_m}%  &7*%{_p1}%* <tooltip:&7This player is &x&0&0&F&B&4&E&lM&x&0&0&F&B&6&4&lO&x&0&0&F&A&7&A&lD&x&0&0&F&A&9&0&l-&x&0&0&F&9&A&7&lP&x&0&0&F&9&B&D&lA&x&0&0&F&8&D&3&lN&x&0&0&F&8&E&9&lE&x&0&0&F&7&F&F&lL &7staff>[&x&0&0&F&B&4&E&lM&x&0&0&F&B&6&4&lO&x&0&0&F&A&7&A&lD&x&0&0&F&A&9&0&l-&x&0&0&F&9&A&7&lP&x&0&0&F&9&B&D&lA&x&0&0&F&8&D&3&lN&x&0&0&F&8&E&9&lE&x&0&0&F&7&F&F&lL&7]" to {_p1} and {_p2}
+        send "" to {_p1} and {_p2}
+    else:
+        send "" to {_p1} and {_p2}
+        send "&e&lMSG: &f%{_m}%  &7*%{_p1}%*" to {_p1} and {_p2}
+        send "" to {_p1} and {_p2}
+    play sound "minecraft:block.note_block.bell" to {_p2}
 
 
 
@@ -472,6 +497,39 @@ command /MOD-PANEL [<text>] [<offline player>] [<timespan>] [<gamemode>] [<offli
                     else:
                         send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
                         play sound "minecraft:block.note_block.bass" to player
+
+            else if arg-1 is "msg":
+                if arg-2 is online:
+                    if arg-3 is set:
+                        if {MOD-PANEL_msg_mode::%player's uuid%} is true:
+                            send {@MOD-PANEL_Prefix} &8&l» &eMSG &7mode Is already Enabled!" to player
+                            play sound "minecraft:block.note_block.bass" to player
+                        else:
+                            send {@MOD-PANEL_Prefix} &8&l» &eMSG &7mode is now &aEnabled" to player
+                            send {@MOD-PANEL_Prefix} &8&l» &eMSG &7mode is now &aEnabled" to arg-2
+                            send {@MOD-PANEL_Prefix} &8&l» &7All messages is sent to &fyou &7and &f%player%" to arg-2
+                            set {MOD-PANEL_msg_mode::%player's uuid%} to true
+                            set {MOD-PANEL_msg_mode::%arg-2's uuid%} to true
+                            set {MOD-PANEL_msg_player::%player's uuid%} to arg-2
+                            set {MOD-PANEL_msg_player::%arg-2's uuid%} to player
+                            play sound "minecraft:block.note_block.chime" to arg-2
+                            play sound "minecraft:block.note_block.chime" to player
+                    else:
+                        if {MOD-PANEL_msg_mode::%player's uuid%} is true:
+                            send {@MOD-PANEL_Prefix} &8&l» &eMSG &7mode is now &cDisabled" to player
+                            send {@MOD-PANEL_Prefix} &8&l» &eMSG &7mode is now &cDisabled" to arg-2
+                            delete {MOD-PANEL_msg_mode::%player's uuid%}
+                            delete {MOD-PANEL_msg_mode::%arg-2's uuid%}
+                            delete {MOD-PANEL_msg_player::%player's uuid%}
+                            delete {MOD-PANEL_msg_player::%arg-2's uuid%}
+                            play sound "minecraft:block.note_block.chime" to arg-2
+                            play sound "minecraft:block.note_block.chime" to player
+                        else:
+                            send {@MOD-PANEL_Prefix} &8&l» &eMSG &7mode Is already Disabled!" to player
+                            play sound "minecraft:block.note_block.bass" to player
+                else:
+                    send {@MOD-PANEL_Prefix} &8&l» &cPlayer &f%arg-2% &cisn't online!" to player
+                    play sound "minecraft:block.note_block.bass" to player
 
             else if arg-1 is "broadcast":
                 if arg-3 is set:
@@ -647,6 +705,15 @@ on inventory click:
             else if event-item is ender eye named "&b&lSpectator":
                 make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
 
+            else if event-item is {MOD-PANEL_written_book} named "&e&lMSG":
+                GUI_MOD_PANEL_player_control_MSG(player)
+
+            else if event-item is lime shulker box named "&a&lEnable":
+                make player execute command "/MOD-PANEL msg %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
+
+            else if event-item is red shulker box named "&c&lDisable":
+                make player execute command "/MOD-PANEL msg %{MOD-PANEL_name_control_player::%player's uuid%}%"
+
             else if event-item is ender pearl named "&3&lTeleport":
                 make player execute command "/MOD-PANEL teleport %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
@@ -800,6 +867,10 @@ on chat:
     else if {MOD-PANEL_staff_chat_mode::%player's uuid%} is true:
         cancel event
         MOD_PANEL_Staff_Chat(player, message)
+
+    else if {MOD-PANEL_msg_mode::%player's uuid%} is true:
+        cancel event
+        MOD_PANEL_MSG(player, {MOD-PANEL_msg_player::%player's uuid%}, message)
 
     else if {MOD-PANEL_chat_lock} is true:
         if {MOD-PANEL_STAFF::*} do not contain player:
