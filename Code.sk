@@ -777,7 +777,10 @@ on chat:
         cancel event
         delete {MOD-PANEL_broadcasting::%player's uuid%}
         if message is "cancel":
-            send {@MOD-PANEL_Prefix} &8&l» &7canceled &f%{MOD-PANEL_name_control_player::%player's uuid%}%'s &7Broadcast!" to player
+            if {MOD-PANEL_broadcast_player::%player's uuid%} is set:
+                send {@MOD-PANEL_Prefix} &8&l» &7canceled &f%{MOD-PANEL_name_control_player::%player's uuid%}%'s &7Broadcast!" to player
+            else:
+                send {@MOD-PANEL_Prefix} &8&l» &7canceled &fall players &7Broadcast!" to player
         else:
             if {MOD-PANEL_broadcast_player::%player's uuid%} is set:
                 send "" to {MOD-PANEL_broadcast_player::%player's uuid%}
