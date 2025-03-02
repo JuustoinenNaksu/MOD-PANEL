@@ -1,5 +1,5 @@
 # Player list
-  - Auto pagination:
+  - Auto pagination: [in progress]
     - Automaticly generating pages
 
 # Player control
