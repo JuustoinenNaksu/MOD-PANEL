@@ -1,6 +1,4 @@
 # Player control
-  - MSG:
-    - Feature that allows staff to talk with players without nobody seeing this(not even console, but can be configured)
   - Notes:
     - Allows staff to mark notes to players MOD-PANEL Notes section
   - Info:
