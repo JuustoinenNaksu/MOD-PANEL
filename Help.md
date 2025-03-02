@@ -10,4 +10,4 @@
   - something dosen't work or Found Bug?
       - try reloading the skript. (if it didn't fix try reinstalling mod-panel skript)
       - report bug in [Github](https://github.com/JuustoinenNaksu/MOD-PANEL) or Discord(DM me: _JuustoNaksu_)   
-### [! Don't try to fix it !]
+     ### [! Don't try to fix it !]
