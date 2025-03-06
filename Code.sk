@@ -306,9 +306,9 @@ function GUI_MOD_PANEL_player_control_freeze(p: player):
 function GUI_MOD_PANEL_staff_tools(p: player):
     set {_MOD-PANEL_GUI} to a new chest inventory with 5 rows named {@MOD-PANEL_Prefix} &8| &6&lStaff-Tools"
     set slot integers from 0 to 44 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
-    set slot integers from 10 to 10 of {_MOD-PANEL_GUI} to writable book named "&6&lStaff-Chat"
-    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to {MOD-PANEL_goathorn} named "&6&lBroadcast"
-    set slot integers from 12 to 12 of {_MOD-PANEL_GUI} to compass named "&6&lChat-Lock"
+    set slot integers from 10 to 10 of {_MOD-PANEL_GUI} to writable book named "&6&lStaff-Chat" with lore "&8- Talk with other staff"
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to {MOD-PANEL_goathorn} named "&6&lBroadcast" with lore "&8- Broadcast to all players"
+    set slot integers from 12 to 12 of {_MOD-PANEL_GUI} to compass named "&6&lChat-Lock" with lore "&8- Lock chat from non-staff players"
     set slot integers from 13 to 16 of {_MOD-PANEL_GUI} to red stained glass pane named "&cComing soon..."
     set slot integers from 19 to 25 of {_MOD-PANEL_GUI} to red stained glass pane named "&cComing soon..."
     set slot integers from 28 to 34 of {_MOD-PANEL_GUI} to red stained glass pane named "&cComing soon..."
@@ -318,18 +318,18 @@ function GUI_MOD_PANEL_staff_tools(p: player):
 function GUI_MOD_PANEL_staff_chat(p: player):
     set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &6&lStaff-Chat"
     set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
-    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to writable book named "&aEnable &6Staff-Chat mode"
-    set slot integers from 13 to 13 of {_MOD-PANEL_GUI} to name tag named "&6Type to Staff-Chat"
-    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to book named "&cDisable &6Staff-Chat mode"
-    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to writable book named "&aEnable &6Staff-Chat mode" with lore "&8Enables staff-chat mode"
+    set slot integers from 13 to 13 of {_MOD-PANEL_GUI} to name tag named "&6Type to Staff-Chat" with lore "&8Send single message to staff-chat"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to book named "&cDisable &6Staff-Chat mode" with lore "&8Disables staff-chat mode"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack" with lore "&8Back to staff-tools"
     open {_MOD-PANEL_GUI} to {_p}
 
 function GUI_MOD_PANEL_chat_lock(p: player):
     set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &6&lChat-Lock"
     set slot integers from 0 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
-    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to red shulker box named "&cDisable &6Chat-Lock"
-    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to lime shulker box named "&aEnable &6Chat-Lock"
-    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to lime shulker box named "&aEnable &6Chat-Lock" with lore "&8Lock chat from non-staff players"
+    set slot integers from 15 to 15 of {_MOD-PANEL_GUI} to red shulker box named "&cDisable &6Chat-Lock" with lore "&8open chat to non-staff players"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack" with lore "&8Back to staff-tools"
     open {_MOD-PANEL_GUI} to {_p}
 
 function GUI_MOD_PANEL_addons(p: player):
@@ -681,7 +681,8 @@ on inventory click:
 
             else if event-item is lime shulker box named "&4&lRemove":
                 make player execute command "/MOD-PANEL unwarn %{MOD-PANEL_name_control_player::%player's uuid%}%"
-                send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &aUnWarned &7By: &f%player% &7Warn: &f%line 3 of lore of {MOD-PANEL_player_warn::%player's uuid%}% &7given by: &f%line 5 of lore of {MOD-PANEL_player_warn::%player's uuid%}%" to {MOD-PANEL_STAFF::*}
+                send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &aUnWarned &7By: &f%player%" to {MOD-PANEL_STAFF::*}
+                send {@MOD-PANEL_Prefix} &8&l» &7Warn: &f%line 3 of lore of {MOD-PANEL_player_warn::%player's uuid%}% &7given by: &f%line 5 of lore of {MOD-PANEL_player_warn::%player's uuid%}%" to {MOD-PANEL_STAFF::*}
                 make player execute command "/MOD-PANEL warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is red shulker box named "&c&lCancel":
@@ -800,7 +801,7 @@ on chat:
             send {@MOD-PANEL_Prefix} &8&l» &7canceled &f%{MOD-PANEL_name_control_player::%player's uuid%}%'s &7Kick!" to player
         else:
             kick {MOD-PANEL_kick_player::%player's uuid%} due to {@MOD-PANEL_Prefix}%nl%%nl%&8| &c&lKicked By: &f%player% &8|%nl%%nl%&8| &c&lReason: &f%message% &8|"
-            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &ckicked &7with &freason: %message%" to {MOD-PANEL_STAFF::*}
+            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7is &ckicked &7for reason: &f%message%" to {MOD-PANEL_STAFF::*}
         delete {MOD-PANEL_kick_player::%player's uuid%}
 
     else if {MOD-PANEL_banning::%player's uuid%} is true:
@@ -823,8 +824,10 @@ on chat:
             set {MOD-PANEL_duration::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to {MOD-PANEL_ban_duration::%player's uuid%}
             set {MOD-PANEL_banned_by::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to player
             set {MOD-PANEL_banned::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to true
+            if {MOD-PANEL_ban_duration::%player's uuid%} is "permanent":
+                set {MOD-PANEL_expire_message::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%} to "Never"
             kick {MOD-PANEL_ban_player::%player's uuid%} due to {@MOD-PANEL_Prefix}%nl%%nl%&8| &c&lBanned By: &f%{MOD-PANEL_banned_by::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%}% &8|%nl%%nl%&8| &c&lReason: &f%{MOD-PANEL_reason::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%}% &8|%nl%%nl%&8| &c&lDuration: &6%{MOD-PANEL_duration::%{MOD-PANEL_ban_player::%player's uuid%}'s uuid%}% &8|%nl%%nl%&8| &c&lExpires: &6%{MOD-PANEL_expire_message::%player's uuid%}% &8|"
-            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &cBanned &7for with &freason: %message% &7and &fDuration: %{MOD-PANEL_ban_duration::%player's uuid%}%" to {MOD-PANEL_STAFF::*}
+            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7is &cBanned &7for reason: &f%message% &7and Duration: &f%{MOD-PANEL_ban_duration::%player's uuid%}%" to {MOD-PANEL_STAFF::*}
         delete {MOD-PANEL_ban_player::%player's uuid%}
 
     else if {MOD-PANEL_warning::%player's uuid%} is true:
@@ -835,8 +838,8 @@ on chat:
         else:
             add 1 to {MOD-PANEL_Warn_ID::%{MOD-PANEL_warn_player::%player's uuid%}%}
             add map named "&4&lWarn &8[&fID: %{MOD-PANEL_Warn_ID::%{MOD-PANEL_warn_player::%player's uuid%}'s uuid%}%&8]" with lore "" and "&6&lDetails:" and "&f%message%" and "&6&lGiver:" and "&f%player%" and "" and "&8&oClick to remove" to {MOD-PANEL_Warns::%{MOD-PANEL_warn_player::%player's uuid%}'s uuid%::*}
-            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &cWarned: &f%message% &7By: &f%player%" to {MOD-PANEL_STAFF::*}
-            send {@MOD-PANEL_Prefix} &8&l» &7You have been &cWarned: &f%message% &7By: &f%player%" to {MOD-PANEL_warn_player::%player's uuid%}
+            send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7is &cWarned &7for reason: &f%message% &7By: &f%player%" to {MOD-PANEL_STAFF::*}
+            send {@MOD-PANEL_Prefix} &8&l» &7You have been &cWarned &7for reason: &f%message% &7By: &f%player%" to {MOD-PANEL_warn_player::%player's uuid%}
             play sound "minecraft:block.note_block.bass" to {MOD-PANEL_warn_player::%player's uuid%}
         delete {MOD-PANEL_warn_player::%player's uuid%}
 
@@ -850,9 +853,9 @@ on chat:
                 send {@MOD-PANEL_Prefix} &8&l» &7canceled &fall players &7Broadcast!" to player
         else:
             if {MOD-PANEL_broadcast_player::%player's uuid%} is set:
-                send "" to {MOD-PANEL_broadcast_player::%player's uuid%}
-                send "&e&lBroadcast: &f%message%" to {MOD-PANEL_broadcast_player::%player's uuid%}
-                send "" to {MOD-PANEL_broadcast_player::%player's uuid%}
+                send "" to {MOD-PANEL_broadcast_player::%player's uuid%} and player
+                send "&e&lBroadcast: &f%message%" to {MOD-PANEL_broadcast_player::%player's uuid%} and player
+                send "" to {MOD-PANEL_broadcast_player::%player's uuid%} and player
                 delete {MOD-PANEL_broadcast_player::%player's uuid%}
             else:
                 send "" to all players
@@ -875,7 +878,7 @@ on chat:
     else if {MOD-PANEL_chat_lock} is true:
         if {MOD-PANEL_STAFF::*} do not contain player:
             cancel event
-            send {@MOD-PANEL_Prefix} &8&l» &cChat is locked by staff!" to player
+            send {@MOD-PANEL_Prefix} &8&l» &7Chat is &cLocked &7by staff!" to player
             play sound "minecraft:block.note_block.bass" to player
 
     else if {MOD-PANEL_mute::%player's uuid%} is true:
@@ -921,6 +924,8 @@ on quit:
         delete {MOD-PANEL_banning::%player's uuid%}
     if {MOD-PANEL_warning::%player's uuid%} is true:
         delete {MOD-PANEL_warning::%player's uuid%}
+    if {MOD-PANEL_broadcasting::%player's uuid%} is true:
+        delete {MOD-PANEL_broadcasting::%player's uuid%}
     if {MOD-PANEL_staff_chat::%player's uuid%} is true:
         delete {MOD-PANEL_staff_chat::%player's uuid%}
     if {MOD-PANEL_staff_chat_mode::%player's uuid%} is true:
@@ -936,7 +941,7 @@ options:
     MOD-PANEL_Report.System_Prefix: "&x&A&B&0&0&0&0&lR&x&B&1&0&D&0&0&le&x&B&7&1&9&0&0&lp&x&B&C&2&6&0&0&lo&x&C&2&3&2&0&0&lr&x&C&8&3&F&0&0&lt&x&C&E&4&C&0&0&l-&x&D&3&5&8&0&0&lS&x&D&9&6&5&0&0&ly&x&D&F&7&1&0&0&ls&x&E&5&7&E&0&0&lt&x&E&A&8&A&0&0&le&x&F&0&9&7&0&0&lm
 
     #! Do NOT change this !
-    version: 1.2.1
+    version: 1.2.2
 
 on load:
     set {MOD-PANEL_Report.system} to false
