@@ -87,7 +87,7 @@
 
 
 
-command /MOD-PANEL:permission [<text>] [<offline player>]:
+command /mod-panel:permission [<text>] [<offline player>]:
     usage: &c/mod-panel:permission [add/list/remove] [player]
     permission: MOD-PANEL:permission
     permission message: &cYou don't have permission to run that command!
@@ -116,7 +116,7 @@ command /MOD-PANEL:permission [<text>] [<offline player>]:
 on tab complete of "/MOD-PANEL:permission":
 	set tab completions for position 1 to "add", "list" and "remove"
 
-command /MOD-PANEL:panel:
+command /mod-panel:panel:
     aliases: /panel
     trigger:
         if {MOD-PANEL_STAFF::*} contains player:
@@ -124,7 +124,7 @@ command /MOD-PANEL:panel:
         else:
             send {@MOD-PANEL_Prefix} &8&l» &cYou don't have permission to the panel!" to player
 
-command /MOD-PANEL:version:
+command /mod-panel:version:
     trigger:
         send "&7&m-------------------------" to player
         send {@MOD-PANEL_Prefix} &8&l» &9v.{@version}" to player
@@ -390,7 +390,7 @@ function MOD_PANEL_MSG(p1: player, p2: player, m: text):
 
 
 
-command /MOD-PANEL [<text>] [<offline player>] [<timespan>] [<gamemode>] [<offline player>]:
+command /mod-panel [<text>] [<offline player>] [<timespan>] [<gamemode>] [<offline player>]:
     permission: MOD-PANEL
     permission message: &cYou don't have permission to run that command!
     trigger:
@@ -645,33 +645,33 @@ on inventory click:
             else if event-item is red stained glass:
                 if name of player's current inventory is {@MOD-PANEL_Prefix} &8| &c&lBan":
                     if event-item's name is "&6Permanent":
-                        make player execute command "/MOD-PANEL ban %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                        make player execute command "/mod-panel ban %{MOD-PANEL_name_control_player::%player's uuid%}%"
                     else:
-                        make player execute command "/MOD-PANEL ban %{MOD-PANEL_name_control_player::%player's uuid%}% %uncolored event-item's name%"
+                        make player execute command "/mod-panel ban %{MOD-PANEL_name_control_player::%player's uuid%}% %uncolored event-item's name%"
 
             else if event-item is lime stained glass named "&aUnBan":
-                make player execute command "/MOD-PANEL unban %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel unban %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is rabbit foot named "&4&lKick":
-                make player execute command "/MOD-PANEL kick %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel kick %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is recovery compass named "&c&lMute":
                 GUI_MOD_PANEL_player_control_Mutemenu1(player)
 
             else if event-item is red shulker box named "&c&lMute":
-                make player execute command "/MOD-PANEL mute %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel mute %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is lime shulker box named "&a&lUnMute":
-                make player execute command "/MOD-PANEL unmute %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel unmute %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is barrel named "&c&lWarn":
                 GUI_MOD_PANEL_player_control_Warnmenu1(player)
 
             else if event-item is red shulker box named "&c&lWarn":
-                make player execute command "/MOD-PANEL warn %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel warn %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is orange shulker box named "&6&lWarns":
-                make player execute command "/MOD-PANEL warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is map:
                 if name of player's current inventory is {@MOD-PANEL_Prefix} &8| &c&lWarn":
@@ -680,58 +680,58 @@ on inventory click:
                         GUI_MOD_PANEL_player_warncontrol_check(player)
 
             else if event-item is lime shulker box named "&4&lRemove":
-                make player execute command "/MOD-PANEL unwarn %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel unwarn %{MOD-PANEL_name_control_player::%player's uuid%}%"
                 send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &aUnWarned &7By: &f%player%" to {MOD-PANEL_STAFF::*}
                 send {@MOD-PANEL_Prefix} &8&l» &7Warn: &f%line 3 of lore of {MOD-PANEL_player_warn::%player's uuid%}% &7given by: &f%line 5 of lore of {MOD-PANEL_player_warn::%player's uuid%}%" to {MOD-PANEL_STAFF::*}
-                make player execute command "/MOD-PANEL warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is red shulker box named "&c&lCancel":
-                make player execute command "/MOD-PANEL warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
             
             else if event-item is chest named "&6&lInv&f&lsee":
-                make player execute command "/MOD-PANEL invsee %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel invsee %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is ender chest named "&5&lEnder&f&lsee":
-                make player execute command "/MOD-PANEL endersee %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel endersee %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is crafter named "&e&lGamemode":
-                make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel gamemode %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is grass block named "&6&lCreative":
-                make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
+                make player execute command "/mod-panel gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
 
             else if event-item is {MOD-PANEL_iron_sword} named "&a&lSurvival":
-                make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
+                make player execute command "/mod-panel gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
 
             else if event-item is ender eye named "&b&lSpectator":
-                make player execute command "/MOD-PANEL gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
+                make player execute command "/mod-panel gamemode %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes %uncolored event-item's name%"
 
             else if event-item is {MOD-PANEL_written_book} named "&e&lMSG":
                 GUI_MOD_PANEL_player_control_MSG(player)
 
             else if event-item is lime shulker box named "&a&lEnable":
-                make player execute command "/MOD-PANEL msg %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
+                make player execute command "/mod-panel msg %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
 
             else if event-item is red shulker box named "&c&lDisable":
-                make player execute command "/MOD-PANEL msg %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel msg %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is ender pearl named "&3&lTeleport":
-                make player execute command "/MOD-PANEL teleport %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel teleport %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is beacon named "&6&lTo":
-                make player execute command "/MOD-PANEL teleport %player% 1 minutes survival %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel teleport %player% 1 minutes survival %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is beacon named "&6&lHere":
-                make player execute command "/MOD-PANEL teleport %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes survival %player%"
+                make player execute command "/mod-panel teleport %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes survival %player%"
 
             else if event-item is blue ice named "&b&lFreeze":
-                make player execute command "/MOD-PANEL freeze %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel freeze %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is ice named "&b&lFreeze":
-                make player execute command "/MOD-PANEL freeze %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
+                make player execute command "/mod-panel freeze %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
 
             else if event-item is magma block named "&c&lUnFreeze":
-                make player execute command "/MOD-PANEL unfreeze %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel unfreeze %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is writable book named "&6&lStaff-Chat":
                 GUI_MOD_PANEL_staff_chat(player)
@@ -760,9 +760,9 @@ on inventory click:
                     play sound "minecraft:block.note_block.bass" to player
 
             else if event-item is {MOD-PANEL_goathorn} named "&e&lBroadcast":
-                make player execute command "/MOD-PANEL broadcast %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
+                make player execute command "/mod-panel broadcast %{MOD-PANEL_name_control_player::%player's uuid%}% 1 minutes"
             else if event-item is {MOD-PANEL_goathorn} named "&6&lBroadcast":
-                make player execute command "/MOD-PANEL broadcast %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/mod-panel broadcast %{MOD-PANEL_name_control_player::%player's uuid%}%"
 
             else if event-item is compass named "&6&lChat-Lock":
                 GUI_MOD_PANEL_chat_lock(player)
@@ -941,7 +941,7 @@ options:
     MOD-PANEL_Report.System_Prefix: "&x&A&B&0&0&0&0&lR&x&B&1&0&D&0&0&le&x&B&7&1&9&0&0&lp&x&B&C&2&6&0&0&lo&x&C&2&3&2&0&0&lr&x&C&8&3&F&0&0&lt&x&C&E&4&C&0&0&l-&x&D&3&5&8&0&0&lS&x&D&9&6&5&0&0&ly&x&D&F&7&1&0&0&ls&x&E&5&7&E&0&0&lt&x&E&A&8&A&0&0&le&x&F&0&9&7&0&0&lm
 
     #! Do NOT change this !
-    version: 1.2.2
+    version: 1.2.2.1
 
 on load:
     set {MOD-PANEL_Report.system} to false
