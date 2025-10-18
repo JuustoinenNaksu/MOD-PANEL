@@ -1,6 +1,6 @@
 # MOD-PANEL Help:
 
-  - Can't accses to the panel?
+  - Can't access to the panel?
       - Make sure that you have the permission to accses the panel.
       - You can add/remove permission to/from players(staff) with command `/mod-panel:permission`.
    
