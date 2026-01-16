@@ -1,9 +1,11 @@
 # Player list:
-  - Skin/Name updater [Beta]
-  - Automatic Pagination system [Beta]
+  - Skin/Name updater
+  - Automatic Pagination system
 
 # Player control:
   - Player status
+      - 'Online' status
+      - 'Last online' status
   - Ban
   - Kick
   - Mute
