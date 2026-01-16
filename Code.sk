@@ -113,7 +113,7 @@ command /mod-panel:permission [<text>] [<offline player>]:
         else:
             send "&c/mod-panel:permission [add/list/remove] [player]" to player
 
-on tab complete of "/MOD-PANEL:permission":
+on tab complete of "/mod-panel:permission":
 	set tab completions for position 1 to "add", "list" and "remove"
 
 command /mod-panel:panel:
@@ -132,15 +132,19 @@ command /mod-panel:version:
 
 
 
+
+
 function GUI_MOD_PANEL_player_control(p: player):
     set {_MOD-PANEL_player_status} to "&cOffline"
+    set {_MOD-PANEL_player_Last_online} to "%nl%&f%{MOD-PANEL_player_Last_online::%{MOD-PANEL_name_control_player::%{_p}'s uuid%}'s uuid%}%"
     loop all players:
         if name of {MOD-PANEL_control_player::%{_p}'s uuid%} is loop-player's name:
             if loop-player is online:
                 set {_MOD-PANEL_player_status} to "&aOnline"
+                set {_MOD-PANEL_player_Last_online} to "&fNow"
     set {_MOD-PANEL_GUI} to a new chest inventory with 5 rows named {@MOD-PANEL_Prefix}"
     set slot integers from 0 to 44 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
-    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                       " and "&7Status: %{_MOD-PANEL_player_status}%" and "&8&m                       "
+    set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to {MOD-PANEL_control_player::%{_p}'s uuid%} with lore "&8&m                         ", "&7Status: %{_MOD-PANEL_player_status}%", "&8&m                         ", "&7Last Online: %{_MOD-PANEL_player_Last_online}%" and "&8&m                         "
     set slot integers from 44 to 44 of {_MOD-PANEL_GUI} to barrier named "&c&lBack" with lore "&8Back to player-list"
     set slot integers from 10 to 10 of {_MOD-PANEL_GUI} to {MOD-PANEL_mace} named "&4&lBan" with lore "&8- Preset time-menu" and "&8- Shows expire date & time to banned player" and "&8- Cool looking Ban message"
     set slot integers from 11 to 11 of {_MOD-PANEL_GUI} to rabbit foot named "&4&lKick" with lore "&8- Cool looking Kick message"
@@ -336,17 +340,17 @@ function GUI_MOD_PANEL_addons(p: player):
     set {_MOD-PANEL_GUI} to a new chest inventory with 3 rows named {@MOD-PANEL_Prefix} &8| &6&lAddons"
     set slot integers from 0 to 8 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
     set slot integers from 18 to 26 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
-    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack"
+    set slot integers from 26 to 26 of {_MOD-PANEL_GUI} to barrier named "&c&lBack" with lore "&8Back to player-list"
     open {_MOD-PANEL_GUI} to {_p}
     set {_Var} to 8
     loop {MOD-PANEL_addons::*}:
         add 1 to {_Var}
         set slot {_Var} of {_MOD-PANEL_GUI} to loop-value
 
-function page(p:player, page:number):
+function GUI_MOD_PANEL_page(p:player, page:number):
     set {_item::*} to {MOD-PANEL_online_players::*}
 
-    set {_MOD-PANEL_GUI} to a new chest inventory with 6 rows named {@MOD-PANEL_Prefix} &8| &ePage: %{_page}%"
+    set {_MOD-PANEL_GUI} to a new chest inventory with 6 rows named {@MOD-PANEL_Prefix} &8| &ePage: %{_MOD-PANEL_page}%"
     set slot integers from 0 to 8 of {_MOD-PANEL_GUI} to gray stained glass pane named " "
     set slot integers from 4 to 4 of {_MOD-PANEL_GUI} to nether star named "&fPlayers &aOnline: %number of all players%/%max players%" with lore "&fPlayers &cOffline: %({MOD-PANEL_all_players} - number of all players)%" and "&8&m                           " and "&fPlayed Players: &7%{MOD-PANEL_all_players}%"
     set slot integers from 8 to 8 of {_MOD-PANEL_GUI} to crafting table named "&6&lSTAFF-Tools"
@@ -354,9 +358,9 @@ function page(p:player, page:number):
     open {_MOD-PANEL_GUI} to {_p}
 
     set {_slot} to 9
-    set {page} to {_page}
-    set {_page} to floor({_page}) - 1
-    set {_start} to {_page} * 45
+    set {MOD-PANEL_page} to {_MOD-PANEL_page}
+    set {_MOD-PANEL_page} to floor({_MOD-PANEL_page}) - 1
+    set {_start} to {_MOD-PANEL_page} * 45
     set {_end} to {_start} + 45
     if number of {_item::*} > {_start}:
         loop {_item::*}:
@@ -365,7 +369,7 @@ function page(p:player, page:number):
                 set slot {_slot} of {_MOD-PANEL_GUI} to loop-value
                 add 1 to {_slot}
 
-    if {_page} > 0:
+    if {_MOD-PANEL_page} > 0:
         set slot 3 of {_MOD-PANEL_GUI} to spectral arrow named "&f&lBack"
     if number of {_item::*} > {_end}:
         set slot 5 of {_MOD-PANEL_GUI} to spectral arrow named "&f&lNext"
@@ -592,6 +596,10 @@ command /mod-panel [<text>] [<offline player>] [<timespan>] [<gamemode>] [<offli
                     send {@MOD-PANEL_Prefix} &8&l» &f%arg-2% &7Isn't Freezed!" to player
                     play sound "minecraft:block.note_block.bass" to player
 
+            else if arg-1 is "player_head":
+                delete {MOD-PANEL_name_control_player::%player's uuid%}
+                set {MOD-PANEL_name_control_player::%player's uuid%} to arg-2
+
         else:
             send {@MOD-PANEL_Prefix} &8&l» &7This command can be only executed by panel!" to player
             play sound "minecraft:block.note_block.bass" to player
@@ -611,14 +619,15 @@ on inventory click:
 
             if event-item is spectral arrow:
                 if event-item's name is "&f&lnext":
-                    page(player, ({page} + 1))
+                    GUI_MOD_PANEL_page(player, ({MOD-PANEL_page} + 1))
                 else if event-item's name is "&f&lback":
-                    page(player, ({page} - 1))
+                    GUI_MOD_PANEL_page(player, ({MOD-PANEL_page} - 1))
 
             else if event-item is player head:
                 if name of player's current inventory contains {@MOD-PANEL_Prefix} &8| &ePage:":
                     set {MOD-PANEL_control_player::%player's uuid%} to event-item
                     set {MOD-PANEL_name_control_player::%player's uuid%} to event-item's name
+                    make player execute command "/mod-panel player_head %{MOD-PANEL_name_control_player::%player's uuid%}%"
                     GUI_MOD_PANEL_player_control(player)
 
             else if event-item is barrier named "&c&lBack":
@@ -680,7 +689,7 @@ on inventory click:
                         GUI_MOD_PANEL_player_warncontrol_check(player)
 
             else if event-item is lime shulker box named "&4&lRemove":
-                make player execute command "/mod-panel unwarn %{MOD-PANEL_name_control_player::%player's uuid%}%"
+                make player execute command "/MOD-PANEL unwarn %{MOD-PANEL_name_control_player::%player's uuid%}%"
                 send {@MOD-PANEL_Prefix} &8&l» &f%{MOD-PANEL_name_control_player::%player's uuid%}% &7has been &aUnWarned &7By: &f%player%" to {MOD-PANEL_STAFF::*}
                 send {@MOD-PANEL_Prefix} &8&l» &7Warn: &f%line 3 of lore of {MOD-PANEL_player_warn::%player's uuid%}% &7given by: &f%line 5 of lore of {MOD-PANEL_player_warn::%player's uuid%}%" to {MOD-PANEL_STAFF::*}
                 make player execute command "/mod-panel warns %{MOD-PANEL_name_control_player::%player's uuid%}%"
@@ -918,6 +927,7 @@ on join:
             send title "&7You are &b&lFreezed" with subtitle "&7By &x&0&0&F&B&4&E&lM&x&0&0&F&B&6&4&lO&x&0&0&F&A&7&A&lD&x&0&0&F&A&9&0&l-&x&0&0&F&9&A&7&lP&x&0&0&F&9&B&D&lA&x&0&0&F&8&D&3&lN&x&0&0&F&8&E&9&lE&x&0&0&F&7&F&F&lL &7staff" to player for 99 days
 
 on quit:
+    set {MOD-PANEL_player_Last_online::%player's uuid%} to now
     if {MOD-PANEL_kicking::%player's uuid%} is true:
         delete {MOD-PANEL_kicking::%player's uuid%}
     if {MOD-PANEL_banning::%player's uuid%} is true:
@@ -941,7 +951,7 @@ options:
     MOD-PANEL_Report.System_Prefix: "&x&A&B&0&0&0&0&lR&x&B&1&0&D&0&0&le&x&B&7&1&9&0&0&lp&x&B&C&2&6&0&0&lo&x&C&2&3&2&0&0&lr&x&C&8&3&F&0&0&lt&x&C&E&4&C&0&0&l-&x&D&3&5&8&0&0&lS&x&D&9&6&5&0&0&ly&x&D&F&7&1&0&0&ls&x&E&5&7&E&0&0&lt&x&E&A&8&A&0&0&le&x&F&0&9&7&0&0&lm
 
     #! Do NOT change this !
-    version: 1.2.2.1
+    version: 1.2.3
 
 on load:
     set {MOD-PANEL_Report.system} to false
