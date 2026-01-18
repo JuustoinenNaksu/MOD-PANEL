@@ -347,7 +347,7 @@ function GUI_MOD_PANEL_addons(p: player):
         add 1 to {_Var}
         set slot {_Var} of {_MOD-PANEL_GUI} to loop-value
 
-function GUI_MOD_PANEL_page(p:player, page:number):
+function GUI_MOD_PANEL_page(p:player, MOD-PANEL_page:number):
     set {_item::*} to {MOD-PANEL_online_players::*}
 
     set {_MOD-PANEL_GUI} to a new chest inventory with 6 rows named {@MOD-PANEL_Prefix} &8| &ePage: %{_MOD-PANEL_page}%"
