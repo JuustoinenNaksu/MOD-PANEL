@@ -120,7 +120,7 @@ command /mod-panel:panel:
     aliases: /panel
     trigger:
         if {MOD-PANEL_STAFF::*} contains player:
-            page(player, 1)
+            GUI_MOD_PANEL_page(player, 1)
         else:
             send {@MOD-PANEL_Prefix} &8&l» &cYou don't have permission to the panel!" to player
 
@@ -634,13 +634,13 @@ on inventory click:
                 if event-slot is 44 or 26 or 53:
                     if name of player's current inventory contains {@MOD-PANEL_Prefix} &8|":
                         if name of player's current inventory is {@MOD-PANEL_Prefix} &8| &6&lAddons" or {@MOD-PANEL_Prefix} &8| &6&lStaff-Tools":
-                            page(player, 1)
+                            GUI_MOD_PANEL_page(player, 1)
                         else if name of player's current inventory is {@MOD-PANEL_Prefix} &8| &6&lStaff-Chat" or {@MOD-PANEL_Prefix} &8| &6&lChat-Lock":
                             GUI_MOD_PANEL_staff_tools(player)
                         else:
                             GUI_MOD_PANEL_player_control(player)
                     else:
-                        page(player, 1)
+                        GUI_MOD_PANEL_page(player, 1)
 
             else if event-item is chest named "&6&lAddons":
                 GUI_MOD_PANEL_addons(player)
@@ -795,7 +795,7 @@ on inventory click:
                     play sound "minecraft:block.note_block.chime" to player
 
             else if event-item is ender chest named {@MOD-PANEL_Prefix}":
-                page(player, 1)
+                GUI_MOD_PANEL_page(player, 1)
 
 
 
